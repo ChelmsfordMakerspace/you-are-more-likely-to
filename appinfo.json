@@ -1,5 +1,7 @@
 {
-    "appKeys": {},
+    "appKeys": {
+        "FACT": 0
+    },
     "capabilities": [
         "location"
     ],
@@ -8,6 +10,16 @@
     "projectType": "native",
     "resources": {
         "media": [
+            {
+                "file": "fonts/LiberationSans-Regular.ttf",
+                "name": "FONT_MAIN_18",
+                "type": "font"
+            },
+            {
+                "file": "fonts/LiberationSans-Bold.ttf",
+                "name": "FONT_MAIN_BOLD_9",
+                "type": "font"
+            },
             {
                 "file": "fonts/LiberationSans-Bold.ttf",
                 "name": "FONT_MAIN_BOLD_20",
