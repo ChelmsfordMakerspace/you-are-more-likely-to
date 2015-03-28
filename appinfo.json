@@ -1,0 +1,37 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        "location"
+    ],
+    "companyName": "Chelmsford Makerspace",
+    "longName": "@HackEssex Safety Watch",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "characterRegex": "[A-Z,a-z]",
+                "file": "fonts/LiberationSans-Bold.ttf",
+                "name": "FONT_MAIN_BOLD_18",
+                "type": "font"
+            },
+            {
+                "file": "images/alert.png",
+                "menuIcon": true,
+                "name": "IMAGE_ALERTICON",
+                "type": "png"
+            }
+        ]
+    },
+    "sdkVersion": "3",
+    "shortName": "SafeWatch",
+    "targetPlatforms": [
+        "aplite",
+        "basalt"
+    ],
+    "uuid": "2877ad23-6683-4498-accf-354077a14846",
+    "versionCode": 1,
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": false
+    }
+}
