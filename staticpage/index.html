@@ -22,7 +22,7 @@
 		$(".search").keypress(function (e) {
 		  if (e.which == 13) {
 			 search = $(".search").val();
-			 if(search == "Remove Kebab"){
+			 if(search.toLowerCase() == "remove kebab"){
 				 window.location = "rk.ogg";
 			 } 
 			requestFactFallback(search);
