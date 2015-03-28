@@ -2,37 +2,55 @@
 import tornado.ioloop
 import tornado.web
 import os
+import csv
 from json import dumps, loads
 from random import choice
 import urllib.request
 facts = []
+locations = {}
 
+upperchance = 0
+
+uppercrime = 0
 class APIHandler(tornado.web.RequestHandler):
     def get(self):
         lat = self.get_argument("lat", default=361)
         lon = self.get_argument("lon", default=361)
         error = False
-        global facts
+        
         if lat == 361 or lon == 361:
             error = True
         try:
-            lat = int(lat)
-            lon = int(lon)
+            lat = float(lat)
+            lon = float(lon)
         except ValueError:
             error = True
         region = None
         if error:
             region = self.get_argument("region", default=None)
+            error = False
             if region == None:
                 error = True
-            
         if not error:
-            fact = choice(facts)
-            #Work out chance
+            # Get the current location
+            crimerate = -1
             if region == None:
-                response = {'lat':lat,'lon':lon,'error':error,'fact':fact['fact'],'chance':fact['chance']}
+                URL = "http://api.openweathermap.org/data/2.5/weather?lat={0}&lon={1}".format(lat,lon)
+                jsonstr = urllib.request.urlopen(URL).read()
+                weatherdata = loads(jsonstr.decode('utf-8'))
+                region = weatherdata['name']
+            if region in locations:
+                print(region,"has a crimerate of",locations[region])
+                crimerate = locations[region]
             else:
-                response = {'region':region,'error':error,'fact':fact['fact'],'chance':fact['chance']}
+                print("Location not found!")
+            relativecrimerate = 100 * (crimerate / uppercrime)
+            print("Relative Crime Rate in the area:",round(relativecrimerate,2),"%")
+            fact = choice(facts)
+            timesmorelikely = (relativecrimerate / fact['chance'])
+            if relativecrimerate < 0:
+                error = True
+            response = {'region':region,'error':error,'fact':fact['fact'],'chance':fact['chance'],'timesmorelikely':timesmorelikely,'crimerate':relativecrimerate}
         else:
             response = {'error':error}
         
@@ -59,11 +77,29 @@ if __name__ == "__main__":
         if line != "\n":
             lines.append(line[:-1])
     #Parse to numbers
+    
     for line in lines:
         chance = line[line.index('in ')+3:line.index(' chance')+1]
         chance = float(chance.replace(',', ''))
         chance = chance
+        if upperchance < chance:
+            upperchance = chance
         fact = line[line.index('chance'):]
         facts.append({'chance':chance,'fact':fact})
+    for fact in facts:
+        fact['chance'] = 100 * (fact['chance'] / upperchance)
+        
+    with open('anti-soc-behav.csv', newline='\n', encoding='ISO-8859-1') as csvfile:
+        reader = csv.reader(csvfile, delimiter=',', quotechar='|')
+        for row in reader:
+            if row[0][0] == "E":
+                location = row[1]
+                if location not in locations:
+                    locations[location] = 1
+                locations[location] += 1
+        for location in locations:
+            if uppercrime < locations[location]:
+                uppercrime = locations[location]
+        
     application.listen(80)
     tornado.ioloop.IOLoop.instance().start()
