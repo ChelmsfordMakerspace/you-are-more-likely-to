@@ -9,17 +9,40 @@
 </head>
 <body>
 	<div class="stuff">
-	<div class="fact">You are more likely to get hit in the face with a Toaster than get stabbed in Essex.</div>
+	<div class="error">
+		<b>¯\_(ツ)_/¯</b>
+		<p>Couldn't find any crime information about your location.</p>
+		<input type="search" class="search" placeholder="Type your location"></input>
+	</div>
+	<div class="fact">Loading your results...</div>
 	<div class="share"><a class="button" href="http://twitter.com/home?status=You are more likely to get hit in the face with a Toaster than get stabbed in Essex. http://localhost:8888/ %23morelikelyto">Twitter</a><a class="button" href="https://www.facebook.com/sharer/sharer.php?u=localhost:8888">Facebook</a></div>
 </div>
 <script src="jquery-2.1.3.min.js"></script>
 <script>
+		$(".search").keypress(function (e) {
+		  if (e.which == 13) {
+			requestFactFallback($(".search").val());
+			return false;
+		  }
+		});
         function factResponse( data ){
+			if(data.error){
+					$(".error").slideDown();
+					$(".fact").slideUp();
+			}
+			else{
+					$(".fact").slideDown();
+			}
 			$(".fact").html("You are <b>" + Math.round(data.timesmorelikely) + "</b> times more likely to <u> " + data.fact + " </u> than  being in an incident in <u>" + data.region  + "</u>")
         }
 
+		function requestFactFallback(region){
+			$(".error").slideUp();
+			$.get("api",{"region":region},factResponse)
+		}
+		
         function requestFact(position){
-                $.get("api",{"lat":position.coords.latitude,"lon":position.coords.longitude},factResponse)
+			$.get("api",{"lat":position.coords.latitude,"lon":position.coords.longitude},factResponse)
         }
         geolocation = navigator.geolocation.getCurrentPosition(requestFact);
 </script>

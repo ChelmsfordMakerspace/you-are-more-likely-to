@@ -47,3 +47,15 @@ body {
 	color: #2980b9;
 	border-color: #ecf0f1;
 }
+
+.search{
+	font-size: 2rem;
+}
+
+.error{
+	text-align: center;
+	font-size: 3rem;
+	color:#FF766B;
+	margin-bottom: 2rem;
+	display:none;
+}
