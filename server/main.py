@@ -57,16 +57,10 @@ class APIHandler(tornado.web.RequestHandler):
         self.set_header('Content-Type', 'application/json; charset="utf-8"')
         self.write(dumps(response))
 
-class MainHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.write("Homepage not set up yet!")
-
 
 application = tornado.web.Application([
-    (r"/", MainHandler),
-    (r"/main.html", MainHandler),
-    (r"/index.html", MainHandler),
-    (r"/api", APIHandler)
+    (r"/api", APIHandler),
+    (r'/(.*)', tornado.web.StaticFileHandler, {'path': "../staticpage" })
 ])
 
 if __name__ == "__main__":
