@@ -61,7 +61,7 @@ if __name__ == "__main__":
     #Parse to numbers
     for line in lines:
         chance = line[line.index('in ')+3:line.index(' chance')+1]
-        chance = int(chance.replace(',', ''))
+        chance = float(chance.replace(',', ''))
         chance = chance
         fact = line[line.index('chance'):]
         facts.append({'chance':chance,'fact':fact})
