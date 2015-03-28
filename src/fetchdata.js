@@ -7,7 +7,7 @@ function HTTPGET(url) {
 
 function fetchWeather(position) {
 	//Get weather info
-	var response = HTTPGET("http://192.168.1.169/api?" +
+	var response = HTTPGET("http://192.168.1.192/api?" +
     "lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, true);
 		
 	//Convert to JSON
@@ -16,7 +16,7 @@ function fetchWeather(position) {
 	//Extract the data
 	var fact = json.fact;
 	var error = json.error;
-	var times = json.times;
+	var times = Math.round(json.times);
 	
 	//Console output to check all is working.
 	console.log("Fact: " + fact);
@@ -24,7 +24,7 @@ function fetchWeather(position) {
 	console.log("Error: " + error);
 	
 	//Construct a key-value dictionary	
-	var dict = {"KEY_FACT": fact, "KEY_TIMES": times};
+	var dict = {"FACT": fact, "KEY_TIMES": times};
 	
 	//Send data to watch for display
 	Pebble.sendAppMessage(dict);

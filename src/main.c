@@ -3,11 +3,13 @@
 //	Built by @kieran_gould, @Half_Shot, and @RichardR (Chelmsford Makerspace)
 //	Made in roughly two days for @hackessex
 //
+//	I'm making a note here: HUGE SUCCESS. - GLaDOS
+//
 ////////////////////
 
 #include <pebble.h>
 
-char fact_buffer[128];
+char fact_buffer[256];
 
 enum {
 	KEY_FACT = 0,
@@ -78,14 +80,14 @@ void process_tuple(Tuple *t)
 	int value = t->value->int32;
 
 	//Get string value, if present
-	char string_value[32];
+	char string_value[256];
 	strcpy(string_value, t->value->cstring);
 
 	//Decide what to do
 	switch(key) {
 		case KEY_FACT:
 			//Temperature received
-			snprintf(fact_buffer, sizeof("X")*128, "%s", string_value);
+			snprintf(fact_buffer, sizeof("X")*256, "%s", string_value);
 			text_layer_set_text(fact_layer, (char*) &fact_buffer);
 			break;
 	}
