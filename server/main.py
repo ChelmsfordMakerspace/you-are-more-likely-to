@@ -81,7 +81,7 @@ if __name__ == "__main__":
         if upperchance < chance:
             upperchance = chance
         fact = line[end:]
-        facts.append({'chance':chance,'fact':fact})
+        facts.append({'chance':chance,'fact':fact.strip()})
     for fact in facts:
         fact['chance'] = 100 * (fact['chance'] / upperchance)
         
