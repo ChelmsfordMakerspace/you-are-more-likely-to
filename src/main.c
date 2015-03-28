@@ -85,7 +85,7 @@ void process_tuple(Tuple *t)
 	switch(key) {
 		case KEY_FACT:
 			//Temperature received
-			snprintf(fact_buffer, sizeof("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"), "%dF", value);
+			snprintf(fact_buffer, sizeof("X")*128, "%s", string_value);
 			text_layer_set_text(fact_layer, (char*) &fact_buffer);
 			break;
 	}
@@ -120,7 +120,7 @@ void send_int(uint8_t key, uint8_t cmd)
 void tick_callback(struct tm *tick_time, TimeUnits units_changed)
 {
 	//Every five minutes
-	if(tick_time->tm_min % 1 == 0)
+	if(tick_time->tm_min % 5 == 0)
 	{
 		//Send an arbitrary message, the response will be handled by in_received_handler()
 		send_int(5, 5);
@@ -143,6 +143,7 @@ void init()
 	//Register to receive minutely updates
 	tick_timer_service_subscribe(MINUTE_UNIT, tick_callback);
 
+	window_set_fullscreen(window, true);
 	window_set_background_color(window, GColorBlack);
 	window_stack_push(window, true);
 }

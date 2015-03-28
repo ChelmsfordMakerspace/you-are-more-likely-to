@@ -12,18 +12,22 @@ function fetchWeather(position) {
 		
 	//Convert to JSON
 	var json = JSON.parse(response);
-	
+		
 	//Extract the data
-	var temperature = json.main.fact;
+	var fact = json.fact;
+	var error = json.error;
+	var times = json.times;
 	
 	//Console output to check all is working.
-	console.log(fact);
+	console.log("Fact: " + fact);
+	console.log("Times: " + times);
+	console.log("Error: " + error);
 	
 	//Construct a key-value dictionary	
-	//var dict = {"temperature": temperature};
+	var dict = {"KEY_FACT": fact, "KEY_TIMES": times};
 	
 	//Send data to watch for display
-	//Pebble.sendAppMessage(dict);
+	Pebble.sendAppMessage(dict);
 }
 
 function getLocation(pos) {

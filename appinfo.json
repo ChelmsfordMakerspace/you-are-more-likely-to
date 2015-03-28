@@ -1,6 +1,7 @@
 {
     "appKeys": {
-        "FACT": 0
+        "FACT": 0,
+        "TIMES": 1
     },
     "capabilities": [
         "location"
