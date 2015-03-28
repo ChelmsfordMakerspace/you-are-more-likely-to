@@ -15,7 +15,7 @@
 <script src="jquery-2.1.3.min.js"></script>
 <script>
         function factResponse( data ){
-			$(".fact").html("You are " + Math.round(data.timesmorelikely) + " times more likely" + data.fact + " than being part of a crime in " + data.region)
+			$(".fact").html("You are " + Math.round(data.timesmorelikely) + " times more likely to" + data.fact + " than being part of a crime in " + data.region)
         }
 
         function requestFact(position){

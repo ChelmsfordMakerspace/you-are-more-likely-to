@@ -73,12 +73,14 @@ if __name__ == "__main__":
     #Parse to numbers
     
     for line in lines:
-        chance = line[line.index('in ')+3:line.index(' chance')+1]
+        start = line.index('in ')
+        end = line.index(' ',start+3)
+        chance = line[line.index('in ')+3:end+1]
         chance = float(chance.replace(',', ''))
         chance = chance
         if upperchance < chance:
             upperchance = chance
-        fact = line[line.index('chance'):]
+        fact = line[end:]
         facts.append({'chance':chance,'fact':fact})
     for fact in facts:
         fact['chance'] = 100 * (fact['chance'] / upperchance)
