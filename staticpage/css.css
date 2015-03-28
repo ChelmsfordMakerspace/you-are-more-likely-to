@@ -13,6 +13,7 @@ body {
 	vertical-align: middle;
 	margin-left:auto;
 	margin-right:auto;
+	text-align:center;
 }
 
 .fact {
@@ -25,6 +26,19 @@ body {
 
 .share {
 	text-align:center;
+}
+
+.about {
+	text-align:center;
+	font-size:2rem;
+	margin-left: 5%;
+	margin-right: 5%;
+	margin-bottom: 2rem;
+}
+
+.about a, .about a:hover, .about a:visited {
+	color:#ecf0f1;
+	text-decoration: underline;
 }
 
 .button {
