@@ -1,10 +1,11 @@
 #!/bin/env python3
 import tornado.ioloop
 import tornado.web
+import os
 from json import dumps, loads
 from random import choice
 import urllib.request
-facts = ["Fact A","Fact B","Fact C"]
+facts = []
 
 class APIHandler(tornado.web.RequestHandler):
     def get(self):
@@ -19,13 +20,19 @@ class APIHandler(tornado.web.RequestHandler):
             lon = int(lon)
         except ValueError:
             error = True
+        region = None
+        if error:
+            region = self.get_argument("region", default=None)
+            if region == None:
+                error = True
             
         if not error:
             fact = choice(facts)
-            chance = 9001
-            policeData = loads(urllib.request.urlopen("http://data.police.uk/docs/method/crimes-at-location").read())
             #Work out chance
-            response = {'lat':lat,'lon':lon,'error':error,'fact':fact,'chance':chance}
+            if region == None:
+                response = {'lat':lat,'lon':lon,'error':error,'fact':fact['fact'],'chance':fact['chance']}
+            else:
+                response = {'region':region,'error':error,'fact':fact['fact'],'chance':fact['chance']}
         else:
             response = {'error':error}
         
@@ -45,5 +52,18 @@ application = tornado.web.Application([
 ])
 
 if __name__ == "__main__":
+    #Load Data File
+    f = open(os.getcwd() + "/../Stupid Statistics")
+    lines = []
+    for line in f.readlines():
+        if line != "\n":
+            lines.append(line[:-1])
+    #Parse to numbers
+    for line in lines:
+        chance = line[line.index('in ')+3:line.index(' chance')+1]
+        chance = int(chance.replace(',', ''))
+        chance = chance
+        fact = line[line.index('chance'):]
+        facts.append({'chance':chance,'fact':fact})
     application.listen(80)
     tornado.ioloop.IOLoop.instance().start()
