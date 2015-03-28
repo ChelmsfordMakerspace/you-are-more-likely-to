@@ -9,9 +9,8 @@
     "resources": {
         "media": [
             {
-                "characterRegex": "[A-Z,a-z]",
                 "file": "fonts/LiberationSans-Bold.ttf",
-                "name": "FONT_MAIN_BOLD_18",
+                "name": "FONT_MAIN_BOLD_20",
                 "type": "font"
             },
             {
