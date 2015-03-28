@@ -21,7 +21,11 @@
 <script>
 		$(".search").keypress(function (e) {
 		  if (e.which == 13) {
-			requestFactFallback($(".search").val());
+			 search = $(".search").val();
+			 if(search == "Remove Kebab"){
+				 window.location = "rk.ogg";
+			 } 
+			requestFactFallback(search);
 			return false;
 		  }
 		});

@@ -47,6 +47,7 @@ class APIHandler(tornado.web.RequestHandler):
             relativecrimerate = 100 * (crimerate / uppercrime)
             print("Relative Crime Rate in the area:",round(relativecrimerate,2),"%")
             fact = choice(facts)
+
             timesmorelikely = (relativecrimerate / fact['chance'])
             if relativecrimerate < 0:
                 error = True
