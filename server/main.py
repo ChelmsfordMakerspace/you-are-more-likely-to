@@ -7,11 +7,12 @@ from json import dumps, loads
 from random import choice
 import urllib.request
 facts = []
-locations = {}
-
 upperchance = 0
 
 uppercrime = 0
+
+latlngcrimes = {}
+
 class APIHandler(tornado.web.RequestHandler):
     def get(self):
         lat = self.get_argument("lat", default=361)
@@ -39,21 +40,16 @@ class APIHandler(tornado.web.RequestHandler):
                 jsonstr = urllib.request.urlopen(URL).read()
                 weatherdata = loads(jsonstr.decode('utf-8'))
                 region = weatherdata['name']
-            if region in locations:
-                crimerate = locations[region]
-            #Do a simple search
-            if crimerate == -1:
-                region = region.split()
-                for reg in region:
-                    if reg in locations:
-                        crimerate = locations[reg]
+                lat = round(lat,1)
+                lon = round(lon,1)
+                latlon = str(lat) + str(lon)
+                if latlon in latlngcrimes:
+                    crimerate = latlngcrimes[latlon]
             if crimerate == -1:
                 error = True
-                
             relativecrimerate = 100 * (crimerate / uppercrime)
             print("Relative Crime Rate in the area:",round(relativecrimerate,2),"%")
             fact = choice(facts)
-
             timesmorelikely = (relativecrimerate / fact['chance'])
             if relativecrimerate < 0:
                 error = True
@@ -63,7 +59,6 @@ class APIHandler(tornado.web.RequestHandler):
         else:
             response = {'region':region,'error':error,'fact':fact['fact'],'chance':fact['chance'],'timesmorelikely':timesmorelikely,'crimerate':relativecrimerate}
             
-        
         self.set_header('Content-Type', 'application/json; charset="utf-8"')
         self.write(dumps(response))
 
@@ -94,20 +89,21 @@ if __name__ == "__main__":
         facts.append({'chance':chance,'fact':fact.strip()})
     for fact in facts:
         fact['chance'] = 100 * (fact['chance'] / upperchance)
-        
-    with open('anti-soc-behav.csv', newline='\n', encoding='ISO-8859-1') as csvfile:
+    with open('201501.csv', newline='\n', encoding='ISO-8859-1') as csvfile:   
         reader = csv.reader(csvfile, delimiter=',', quotechar='|')
         for row in reader:
-            if row[0][0] == "E":
-                location = row[1]
-                if location.startswith('"') and location.endswith('"'):
-                    location = location[1:-1]
-                if location not in locations:
-                    locations[location] = 1
-                locations[location] += 1
-        for location in locations:
-            if uppercrime < locations[location]:
-                uppercrime = locations[location]
+            try:
+                Lat = round(float(row[5]),1)
+                Lan = round(float(row[4]),1)
+                LatLan = str(Lat)+str(Lan)
+                if LatLan not in latlngcrimes:
+                    latlngcrimes[LatLan] = 0
+                latlngcrimes[LatLan] += 1
+            except:
+                pass #Crap Data
+    for location in latlngcrimes:
+        if uppercrime < latlngcrimes[location]:
+            uppercrime = latlngcrimes[location]
         
     application.listen(80)
     tornado.ioloop.IOLoop.instance().start()
