@@ -33,10 +33,19 @@ body {
 	font-size:2rem;
 	margin-left: 5%;
 	margin-right: 5%;
-	margin-bottom: 2rem;
+	margin-bottom: 1rem;
+}
+
+.disclaimer {
+	margin-bottom: 0.5rem;
 }
 
 .about a, .about a:hover, .about a:visited {
+	color:#ecf0f1;
+	text-decoration: underline;
+}
+
+.disclaimer a, .about a:hover, .about a:visited {
 	color:#ecf0f1;
 	text-decoration: underline;
 }
@@ -72,4 +81,21 @@ body {
 	color:#FF766B;
 	margin-bottom: 2rem;
 	display:none;
+}
+
+.circlebutton {
+	border-style: solid;
+	border-width: 2px;
+	border-radius: 99rem;
+	padding-top: 0.5rem;
+	padding-bottom:0.5rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	color: #ecf0f1;
+	text-decoration:none;
+}
+.circlebutton:hover {
+	background-color: #ecf0f1;
+	color: #2980b9;
+	border-color: #ecf0f1;
 }
