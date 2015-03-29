@@ -10,13 +10,15 @@
 #include <pebble.h>
 
 char fact_buffer[256];
+char times_buffer[16];
 
 enum {
 	KEY_FACT = 0,
+	KEY_TIMES = 1,
 };
 	
 Window *window;
-TextLayer *title_layer, *fact_layer, *credit_layer;
+TextLayer *youare_layer, *times_layer, *morelikely_layer, *fact_layer, *credit_layer;
 
 void tick_handler(struct tm *tick_time, TimeUnits units_changed)
 {
@@ -25,18 +27,45 @@ void tick_handler(struct tm *tick_time, TimeUnits units_changed)
 
 void window_load(Window *window)
 {
-  ResHandle font_bold = resource_get_handle(RESOURCE_ID_FONT_MAIN_BOLD_20); 	// Title font
+  ResHandle font_big = resource_get_handle(RESOURCE_ID_FONT_MAIN_BOLD_35); 	// Title font
 	ResHandle font_small = resource_get_handle(RESOURCE_ID_FONT_MAIN_BOLD_9);		// Credit font
-	ResHandle font_normal = resource_get_handle(RESOURCE_ID_FONT_MAIN_18);			// Fact font
+	ResHandle font_normal = resource_get_handle(RESOURCE_ID_FONT_MAIN_BOLD_18);			// Fact font
 	
-	// Title layer
-  title_layer = text_layer_create(GRect(0, 0, 144, 168));
-  text_layer_set_background_color(title_layer, GColorClear);
-  text_layer_set_text_color(title_layer, GColorWhite);	
-	text_layer_set_text_alignment(title_layer, GTextAlignmentCenter);
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(title_layer));
-	text_layer_set_font(title_layer, fonts_load_custom_font(font_bold));
-  text_layer_set_text(title_layer, "You Are More Likely To...");
+	// You Are layer
+  youare_layer = text_layer_create(GRect(2, 2, 144, 168));
+  text_layer_set_background_color(youare_layer, GColorClear);
+  text_layer_set_text_color(youare_layer, GColorWhite);	
+	text_layer_set_text_alignment(youare_layer, GTextAlignmentLeft);
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(youare_layer));
+	text_layer_set_font(youare_layer, fonts_load_custom_font(font_normal));
+  text_layer_set_text(youare_layer, "You Are...");
+	
+	// Times layer
+  times_layer = text_layer_create(GRect(2, 20, 144, 168));
+  text_layer_set_background_color(times_layer, GColorClear);
+  text_layer_set_text_color(times_layer, GColorWhite);	
+	text_layer_set_text_alignment(times_layer, GTextAlignmentLeft);
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(times_layer));
+	text_layer_set_font(times_layer, fonts_load_custom_font(font_big));
+  text_layer_set_text(times_layer, "Loading");
+	
+	// More Likely To layer
+  morelikely_layer = text_layer_create(GRect(2, 60, 144, 168));
+  text_layer_set_background_color(morelikely_layer, GColorClear);
+  text_layer_set_text_color(morelikely_layer, GColorWhite);	
+	text_layer_set_text_alignment(morelikely_layer, GTextAlignmentLeft);
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(morelikely_layer));
+	text_layer_set_font(morelikely_layer, fonts_load_custom_font(font_normal));
+  text_layer_set_text(morelikely_layer, "More likely to...");
+	
+	// Fact layer
+  fact_layer = text_layer_create(GRect(2, 80, 144, 168));
+  text_layer_set_background_color(fact_layer, GColorClear);
+  text_layer_set_text_color(fact_layer, GColorWhite);	
+	text_layer_set_text_alignment(fact_layer, GTextAlignmentLeft);
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(fact_layer));
+	text_layer_set_font(fact_layer, fonts_load_custom_font(font_normal));
+  text_layer_set_text(fact_layer, "Please wait!");
 	
 	// Credit layer
 	credit_layer = text_layer_create(GRect(0, 156, 144, 168));
@@ -46,16 +75,7 @@ void window_load(Window *window)
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(credit_layer));
 	text_layer_set_font(credit_layer, fonts_load_custom_font(font_small));
   text_layer_set_text(credit_layer, "@hackessex | @CM_Makerspace");
-	
-	// Fact layer
-	fact_layer = text_layer_create(GRect(0, 50, 144, 100));
-  text_layer_set_background_color(fact_layer, GColorClear);
-  text_layer_set_text_color(fact_layer, GColorWhite);	
-	text_layer_set_text_alignment(fact_layer, GTextAlignmentCenter);
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(fact_layer));
-	text_layer_set_font(fact_layer, fonts_load_custom_font(font_normal));
-  text_layer_set_text(fact_layer, "LOADING...");
-	
+		
 	struct tm *t;
 	time_t temp;	
 	temp = time(NULL);	
@@ -66,9 +86,11 @@ void window_load(Window *window)
  
 void window_unload(Window *window)
 {
-  text_layer_destroy(title_layer);
-	text_layer_destroy(credit_layer);
+  text_layer_destroy(youare_layer);
+	text_layer_destroy(morelikely_layer);
 	text_layer_destroy(fact_layer);
+	text_layer_destroy(times_layer);
+	text_layer_destroy(credit_layer);
 }
  
 void process_tuple(Tuple *t)
@@ -86,9 +108,14 @@ void process_tuple(Tuple *t)
 	//Decide what to do
 	switch(key) {
 		case KEY_FACT:
-			//Temperature received
+			//Fact received
 			snprintf(fact_buffer, sizeof("X")*256, "%s", string_value);
 			text_layer_set_text(fact_layer, (char*) &fact_buffer);
+			break;
+		case KEY_TIMES:
+			//Times received
+			snprintf(times_buffer, sizeof("X")*16, "%dx", value);
+			text_layer_set_text(times_layer, (char*) &times_buffer);
 			break;
 	}
 }

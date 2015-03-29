@@ -16,7 +16,7 @@ function fetchWeather(position) {
 	//Extract the data
 	var fact = json.fact;
 	var error = json.error;
-	var times = Math.round(json.times);
+	var times = Math.round(json.timesmorelikely);
 	
 	//Console output to check all is working.
 	console.log("Fact: " + fact);
@@ -24,7 +24,7 @@ function fetchWeather(position) {
 	console.log("Error: " + error);
 	
 	//Construct a key-value dictionary	
-	var dict = {"FACT": fact, "KEY_TIMES": times};
+	var dict = {"FACT": fact, "TIMES": times};
 	
 	//Send data to watch for display
 	Pebble.sendAppMessage(dict);

@@ -23,7 +23,12 @@
             },
             {
                 "file": "fonts/LiberationSans-Bold.ttf",
-                "name": "FONT_MAIN_BOLD_20",
+                "name": "FONT_MAIN_BOLD_35",
+                "type": "font"
+            },
+            {
+                "file": "fonts/LiberationSans-Bold.ttf",
+                "name": "FONT_MAIN_BOLD_18",
                 "type": "font"
             },
             {
