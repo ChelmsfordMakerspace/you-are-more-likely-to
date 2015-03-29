@@ -7,7 +7,7 @@ function HTTPGET(url) {
 
 function fetchWeather(position) {
 	//Get weather info
-	var response = HTTPGET("http://192.168.1.192/api?" +
+	var response = HTTPGET("http://192.168.1.169/api?" +
     "lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, true);
 		
 	//Convert to JSON
@@ -22,12 +22,29 @@ function fetchWeather(position) {
 	console.log("Fact: " + fact);
 	console.log("Times: " + times);
 	console.log("Error: " + error);
+	console.log("Lat: " + position.coords.latitude);
+	console.log("Lon: " + position.coords.longitude);
+	
+	//Do some processing on the multiplyer so it doesn't spill offscreen
+	if (times >= 100000) {
+		times = 999999;
+	}
+
+	// Add some text to the fact
+	fact = (fact + " than witness crime");
 	
 	//Construct a key-value dictionary	
 	var dict = {"FACT": fact, "TIMES": times};
 	
 	//Send data to watch for display
-	Pebble.sendAppMessage(dict);
+	if (error === false) {
+		console.log("Pushing data to Pebble");
+		Pebble.sendAppMessage(dict);
+	}
+	else {
+		console.log("Geolocation failed! Retrying...");
+		getLocation();
+	}
 }
 
 function getLocation(pos) {

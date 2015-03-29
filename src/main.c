@@ -41,7 +41,7 @@ void window_load(Window *window)
   text_layer_set_text(youare_layer, "You Are...");
 	
 	// Times layer
-  times_layer = text_layer_create(GRect(2, 20, 144, 168));
+  times_layer = text_layer_create(GRect(2, 20, 144, 50));
   text_layer_set_background_color(times_layer, GColorClear);
   text_layer_set_text_color(times_layer, GColorWhite);	
 	text_layer_set_text_alignment(times_layer, GTextAlignmentLeft);
@@ -59,7 +59,7 @@ void window_load(Window *window)
   text_layer_set_text(morelikely_layer, "More likely to...");
 	
 	// Fact layer
-  fact_layer = text_layer_create(GRect(2, 80, 144, 168));
+  fact_layer = text_layer_create(GRect(2, 79, 144, 168));
   text_layer_set_background_color(fact_layer, GColorClear);
   text_layer_set_text_color(fact_layer, GColorWhite);	
 	text_layer_set_text_alignment(fact_layer, GTextAlignmentLeft);
