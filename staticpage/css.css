@@ -82,3 +82,20 @@ body {
 	margin-bottom: 2rem;
 	display:none;
 }
+
+.circlebutton {
+	border-style: solid;
+	border-width: 2px;
+	border-radius: 99rem;
+	padding-top: 0.5rem;
+	padding-bottom:0.5rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	color: #ecf0f1;
+	text-decoration:none;
+}
+.circlebutton:hover {
+	background-color: #ecf0f1;
+	color: #2980b9;
+	border-color: #ecf0f1;
+}
