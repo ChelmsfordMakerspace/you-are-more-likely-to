@@ -12,6 +12,11 @@
     "resources": {
         "media": [
             {
+                "file": "images/loading.png",
+                "name": "IMAGE_LOADING",
+                "type": "png"
+            },
+            {
                 "file": "fonts/LiberationSans-Regular.ttf",
                 "name": "FONT_MAIN_18",
                 "type": "font"

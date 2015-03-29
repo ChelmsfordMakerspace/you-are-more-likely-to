@@ -7,7 +7,7 @@ function HTTPGET(url) {
 
 function fetchWeather(position) {
 	//Get weather info
-	var response = HTTPGET("http://192.168.1.169/api?" +
+	var response = HTTPGET("http://192.168.1.170/api?" +
     "lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, true);
 		
 	//Convert to JSON
@@ -54,6 +54,9 @@ function getLocation(pos) {
 Pebble.addEventListener("ready",
   function(e) {
 	//App is ready to receive JS messages
+	console.log("=====================================");
+	console.log("= BUILT BY KIERAN GOULD, WILL HUNT, AND RICHARD RAYBOULD (CHELMSFORD MAKERSPACE) FOR @HACKESSEX");
+	console.log("=====================================");
 	console.log("READY TO GO");
 	getLocation();
   }
