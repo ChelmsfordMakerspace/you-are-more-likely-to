@@ -45,7 +45,7 @@
 			else{
 					$(".fact").slideDown();
 			}
-			$(".fact").html("You are <b>" + Math.round(data.timesmorelikely) + "</b> times more likely to <u> " + data.fact + " </u> than  being in an incident in <u>" + data.region  + "</u>")
+			$(".fact").html("You are <b>" + Math.round(data.timesmorelikely) + "</b> times more likely to <u>" + data.fact + "</u> than  being in an incident in <u>" + data.region  + "</u>")
 			$("a.twitter").prop("href", "http://twitter.com/home?status=" + "I am " + Math.round(data.timesmorelikely) + " times more likely to " + data.fact + " than  being in an incident in " + data.region  + "%23MoreLikelyTo")
         }
 
