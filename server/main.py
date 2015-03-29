@@ -51,9 +51,12 @@ class APIHandler(tornado.web.RequestHandler):
             timesmorelikely = (relativecrimerate / fact['chance'])
             if relativecrimerate < 0:
                 error = True
-            response = {'region':region,'error':error,'fact':fact['fact'],'chance':fact['chance'],'timesmorelikely':timesmorelikely,'crimerate':relativecrimerate}
-        else:
+                
+        if error:
             response = {'error':error}
+        else:
+            response = {'region':region,'error':error,'fact':fact['fact'],'chance':fact['chance'],'timesmorelikely':timesmorelikely,'crimerate':relativecrimerate}
+            
         
         self.set_header('Content-Type', 'application/json; charset="utf-8"')
         self.write(dumps(response))
