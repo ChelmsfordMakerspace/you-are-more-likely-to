@@ -3,6 +3,7 @@ import tornado.ioloop
 import tornado.web
 import os
 import csv
+import datetime
 from json import dumps, loads
 from random import choice
 import urllib.request
@@ -40,15 +41,21 @@ class APIHandler(tornado.web.RequestHandler):
                 jsonstr = urllib.request.urlopen(URL).read()
                 weatherdata = loads(jsonstr.decode('utf-8'))
                 region = weatherdata['name']
-                lat = round(lat,1)
-                lon = round(lon,1)
-                latlon = str(lat) + str(lon)
+                latlon = str(round(lat,1)) + str(round(lon,1))
                 if latlon in latlngcrimes:
                     crimerate = latlngcrimes[latlon]
             if crimerate == -1:
                 error = True
+            offcount = -1
+            if lat != 361:
+                URL = "http://data.police.uk/api/crimes-at-location?date={2}&lat={0}&lng={1}".format(lat,lon,(datetime.date.today() - datetime.timedelta(days=31*2)).isoformat()[:7])
+                print(URL)
+                jsonstr = urllib.request.urlopen(URL).read()
+                offcount = len(loads(jsonstr.decode('utf-8')))
+                
             relativecrimerate = 100 * (crimerate / uppercrime)
             print("Relative Crime Rate in the area:",round(relativecrimerate,2),"%")
+            print("Recent offences")
             fact = choice(facts)
             timesmorelikely = (relativecrimerate / fact['chance'])
             if relativecrimerate < 0:
@@ -57,7 +64,7 @@ class APIHandler(tornado.web.RequestHandler):
         if error:
             response = {'error':error}
         else:
-            response = {'region':region,'error':error,'fact':fact['fact'],'chance':fact['chance'],'timesmorelikely':timesmorelikely,'crimerate':relativecrimerate}
+            response = {'region':region,'error':error,'fact':fact['fact'],'chance':fact['chance'],'timesmorelikely':timesmorelikely,'crimerate':relativecrimerate,'recentcount':offcount}
             
         self.set_header('Content-Type', 'application/json; charset="utf-8"')
         self.write(dumps(response))
