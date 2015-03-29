@@ -15,7 +15,7 @@
 		<input type="search" class="search" placeholder="Type your location"></input>
 	</div>
 	<div class="fact">Loading your results...</div>
-	<div class="share"><a class="button" href="http://twitter.com/home?status=You are more likely to get hit in the face with a Toaster than get stabbed in Essex. http://localhost:8888/ %23morelikelyto">Twitter</a><a class="button" href="https://www.facebook.com/sharer/sharer.php?u=localhost:8888">Facebook</a></div>
+	<div class="share"><a class="button twitter" href="http://twitter.com/home?status=I clicked the share button before letting the data load.">Twitter</a></div>
 </div>
 <script src="jquery-2.1.3.min.js"></script>
 <script>
@@ -38,6 +38,7 @@
 					$(".fact").slideDown();
 			}
 			$(".fact").html("You are <b>" + Math.round(data.timesmorelikely) + "</b> times more likely to <u> " + data.fact + " </u> than  being in an incident in <u>" + data.region  + "</u>")
+			$("a.twitter").prop("href", "http://twitter.com/home?status=" + "I am " + Math.round(data.timesmorelikely) + " times more likely to " + data.fact + " than  being in an incident in " + data.region  + "%23MoreLikelyTo")
         }
 
 		function requestFactFallback(region){
