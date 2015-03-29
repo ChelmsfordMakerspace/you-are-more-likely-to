@@ -7,7 +7,7 @@ function HTTPGET(url) {
 
 function fetchWeather(position) {
 	//Get weather info
-	var response = HTTPGET("http://192.168.1.170/api?" +
+	var response = HTTPGET("http://63.142.249.137:85/api?" +
     "lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, true);
 		
 	//Convert to JSON
