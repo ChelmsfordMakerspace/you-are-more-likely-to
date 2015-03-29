@@ -33,10 +33,19 @@ body {
 	font-size:2rem;
 	margin-left: 5%;
 	margin-right: 5%;
-	margin-bottom: 2rem;
+	margin-bottom: 1rem;
+}
+
+.disclaimer {
+	margin-bottom: 0.5rem;
 }
 
 .about a, .about a:hover, .about a:visited {
+	color:#ecf0f1;
+	text-decoration: underline;
+}
+
+.disclaimer a, .about a:hover, .about a:visited {
 	color:#ecf0f1;
 	text-decoration: underline;
 }
