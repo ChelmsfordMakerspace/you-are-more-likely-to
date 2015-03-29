@@ -23,9 +23,14 @@
 		  if (e.which == 13) {
 			 search = $(".search").val();
 			 if(search.toLowerCase() == "remove kebab"){
-				 window.location = "rk.ogg";
+				 $('body').append("<audio src='rk.ogg' autoplay style='display:none;'></audio>");
 			 } 
-			requestFactFallback(search);
+			 else if(search.toLowerCase() == "food"){
+				 $('body').append("<audio src='kby.ogg' autoplay style='display:none;'></audio>");
+			 }
+			 else{
+				requestFactFallback(search); 
+			 }
 			return false;
 		  }
 		});

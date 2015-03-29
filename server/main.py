@@ -40,10 +40,16 @@ class APIHandler(tornado.web.RequestHandler):
                 weatherdata = loads(jsonstr.decode('utf-8'))
                 region = weatherdata['name']
             if region in locations:
-                print(region,"has a crimerate of",locations[region])
                 crimerate = locations[region]
-            else:
-                print("Location not found!")
+            #Do a simple search
+            if crimerate == -1:
+                region = region.split()
+                for reg in region:
+                    if reg in locations:
+                        crimerate = locations[reg]
+            if crimerate == -1:
+                error = True
+                
             relativecrimerate = 100 * (crimerate / uppercrime)
             print("Relative Crime Rate in the area:",round(relativecrimerate,2),"%")
             fact = choice(facts)
@@ -94,6 +100,8 @@ if __name__ == "__main__":
         for row in reader:
             if row[0][0] == "E":
                 location = row[1]
+                if location.startswith('"') and location.endswith('"'):
+                    location = location[1:-1]
                 if location not in locations:
                     locations[location] = 1
                 locations[location] += 1
