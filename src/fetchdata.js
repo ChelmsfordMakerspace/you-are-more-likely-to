@@ -26,7 +26,7 @@ function fetchWeather(position) {
 	console.log("Lon: " + position.coords.longitude);
 	
 	//Do some processing on the multiplyer so it doesn't spill offscreen
-	if (times >= 100000) {
+	if (times >= 1000000) {
 		times = 999999;
 	}
 
